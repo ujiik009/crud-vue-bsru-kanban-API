@@ -1,26 +1,10 @@
 <?php
 
 include "../../database/database.php";
-include "../../lib/jwt/src/JWT.php";
-
-use \Firebase\JWT\JWT;
+include "../../helper/helper_jwt.php";
 
 // ================function=======================
-function encode_jwt($user) 
-{   //กำหนด key สำหรับ encode jwt
-    $config =  parse_ini_file(__DIR__."/../../config.ini");
-    $key = $config["KEY_JWT"];
-    //สร้าง object ข้อมูลสำหรับทำ jwt
-    $payload = array(
-        "user" => $user,
-        "date_time" => date("Y-m-d H:i:s") //กำหนดวันเวลาที่สร้าง
-    );
-    //สร้าง JWT สำหรับ object ข้อมูล
-    $jwt = JWT::encode($payload, $key);
-    //เพื่อความปลาดภัยยิ่งขึ้นเมื่อได้ JWT แล้วควรเข้ารหัสอีกชั้นหนึ่ง
-    // return token ที่สร้าง
-    return $jwt;
-}
+
 // ================function=======================
 
 $return = array();
