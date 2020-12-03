@@ -2,7 +2,9 @@
 include "../../database/database.php";
 include "../../helper/helper_jwt.php";
 include "../../helper/cors.php";
+
 cors();
+
 $return = array();
 
 
