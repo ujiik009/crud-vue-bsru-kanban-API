@@ -21,18 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
                 $body = json_decode($json, true);
 
                 $sql = "
-                INSERT INTO `projects`(`project_name`, `project_start`, `project_end`) VALUES (
-                    '{$body["project_name"]}',
-                    '{$body["project_start"]}',
-                    '{$body["project_end"]}'
-                )
+                UPDATE `tasks` 
+                SET 
+                    `task_name`='{$body["task_name"]}',
+                    `task_detail`='{$body["task_detail"]}',
+                    `state`='{$body["state"]}',
+                    `user_id`='{$body["user_id"]}',
+                    `project_id`='{$body["project_id"]}' 
+                
+                WHERE 
+                task_id = '{$_GET["task_id"]}'
                 ";
 
                 $result = mysqli_query($database->getConnection(), $sql);
 
                 if ($result) {
                     $return["status"] = true;
-                    $return["message"] = "Create Project Successfully";
+                    $return["message"] = "Create Task Successfully";
                 } else {
                     $return["status"] = false;
                     $return["message"] = mysqli_error($database->getConnection());

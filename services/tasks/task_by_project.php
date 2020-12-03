@@ -4,13 +4,13 @@ include "../../helper/helper_jwt.php";
 $return = array();
 
 
-
-if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $headers = apache_request_headers();
 
     if (isset($headers['Authorization'])) {
         $token = $headers['Authorization'];
+
         try {
             if (decode_jwt($token)) {
 
@@ -21,18 +21,19 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
                 $body = json_decode($json, true);
 
                 $sql = "
-                INSERT INTO `projects`(`project_name`, `project_start`, `project_end`) VALUES (
-                    '{$body["project_name"]}',
-                    '{$body["project_start"]}',
-                    '{$body["project_end"]}'
-                )
+                SELECT * FROM `tasks` INNER JOIN users on(tasks.user_id = users.user_id) WHERE tasks.project_id = '{$_GET["project_id"]}'
                 ";
 
                 $result = mysqli_query($database->getConnection(), $sql);
 
                 if ($result) {
+                    $rows = [];
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        unset($row["password"]);
+                        $rows[] = $row;
+                    }
                     $return["status"] = true;
-                    $return["message"] = "Create Project Successfully";
+                    $return["data"] = $rows;
                 } else {
                     $return["status"] = false;
                     $return["message"] = mysqli_error($database->getConnection());

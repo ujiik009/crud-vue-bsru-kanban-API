@@ -4,11 +4,9 @@ include "../../helper/helper_jwt.php";
 $return = array();
 
 
-
-if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 
     $headers = apache_request_headers();
-
     if (isset($headers['Authorization'])) {
         $token = $headers['Authorization'];
         try {
@@ -21,18 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
                 $body = json_decode($json, true);
 
                 $sql = "
-                INSERT INTO `projects`(`project_name`, `project_start`, `project_end`) VALUES (
-                    '{$body["project_name"]}',
-                    '{$body["project_start"]}',
-                    '{$body["project_end"]}'
-                )
+                DELETE FROM `tasks` 
+                WHERE task_id='{$_GET["task_id"]}'
                 ";
-
                 $result = mysqli_query($database->getConnection(), $sql);
-
                 if ($result) {
                     $return["status"] = true;
-                    $return["message"] = "Create Project Successfully";
+                    $return["message"] = "Delete Task Successfully";
                 } else {
                     $return["status"] = false;
                     $return["message"] = mysqli_error($database->getConnection());
@@ -52,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
 } else {
     $return["status"] = "Method not allow";
 }
-
 
 header('Content-Type: application/json');
 echo json_encode($return);

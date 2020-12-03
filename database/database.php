@@ -14,6 +14,8 @@ class Database
     if (!$conn) {
       die("Connection failed: " . mysqli_connect_error());
     }
+    // mysql_set_charset('utf8', $conn);
+    mysqli_set_charset($conn,"utf8");
     $this->connection = $conn;
   }
 

@@ -3,9 +3,6 @@
 include "../../database/database.php";
 include "../../helper/helper_jwt.php";
 
-// ================function=======================
-
-// ================function=======================
 
 $return = array();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
