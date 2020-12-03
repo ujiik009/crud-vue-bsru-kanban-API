@@ -1,7 +1,8 @@
 <?php
 
 include "../../database/database.php";
-
+include "../../helper/cors.php";
+cors();
 $return = array();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $database = new Database();

@@ -1,7 +1,11 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
 include "../../database/database.php";
 include "../../helper/helper_jwt.php";
+include "../../helper/cors.php";
+
+
+cors();
 
 
 $return = array();
@@ -40,4 +44,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 header('Content-Type: application/json');
+
 echo json_encode($return);
